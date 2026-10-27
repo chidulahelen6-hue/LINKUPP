@@ -1,0 +1,552 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10101c">
+  <meta name="description" content="Discover challenges, build skills and find your community with LINKUP.">
+  <title>LINKUP — Find Your People</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d0d16;
+      --panel: #171725;
+      --border: #29283b;
+      --purple: #a78bfa;
+      --text: #f4f2ff;
+      --muted: #9998b2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    button { font: inherit; cursor: pointer; }
+
+    .app {
+      width: min(100% - 28px, 1050px);
+      margin: auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 23px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    }
+
+    .points {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 10px 13px;
+      font-weight: 750;
+      color: #e9c5ff;
+    }
+
+    .hero {
+      padding: 35px 0 25px;
+    }
+
+    .eyebrow {
+      color: var(--purple);
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(32px, 7vw, 54px);
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin: 12px 0;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg, #c4b5fd, #f0abfc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    p { color: var(--muted); line-height: 1.6; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 24px 0;
+    }
+
+    .stat, .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 17px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 30px 0 15px;
+    }
+
+    h2 { font-size: 22px; margin: 0; }
+    h3 { margin: 12px 0 5px; }
+
+    .section-head small { color: var(--muted); }
+
+    .challenge-grid, .community-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .card { min-width: 0; }
+
+    .challenge-icon {
+      font-size: 28px;
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      background: #26213b;
+      border-radius: 15px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      color: #c4b5fd;
+      background: #302448;
+      padding: 5px 9px;
+      border-radius: 20px;
+      margin-top: 12px;
+    }
+
+    .card p {
+      font-size: 13px;
+      min-height: 42px;
+    }
+
+    .primary, .secondary {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: 750;
+      margin-top: 10px;
+    }
+
+    .primary {
+      color: white;
+      background: linear-gradient(100deg, #8b5cf6, #a855f7);
+    }
+
+    .secondary {
+      color: #ddd6fe;
+      background: #29223e;
+      border: 1px solid #51406f;
+    }
+
+    button:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 3px;
+    }
+
+    .done {
+      opacity: .7;
+      border-color: #7c5bba;
+    }
+
+    .community-icon {
+      font-size: 27px;
+    }
+
+    .progress-track {
+      height: 7px;
+      border-radius: 10px;
+      background: #302d42;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #8b5cf6, #e879f9);
+      transition: width .3s;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      position: sticky;
+      bottom: 8px;
+      margin: 30px 0 15px;
+      padding: 8px;
+      background: #191826f2;
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      z-index: 5;
+    }
+
+    nav button {
+      flex: 1;
+      padding: 12px 4px;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    nav button.active {
+      color: white;
+      background: #383052;
+    }
+
+    .view[hidden] { display: none; }
+
+    footer {
+      text-align: center;
+      padding: 15px 0 35px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    #notice {
+      position: fixed;
+      left: 50%;
+      bottom: 95px;
+      transform: translateX(-50%);
+      background: #29223e;
+      color: white;
+      border: 1px solid #65518c;
+      border-radius: 12px;
+      padding: 12px 16px;
+      width: max-content;
+      max-width: 90%;
+      z-index: 10;
+    }
+
+    @media (max-width: 480px) {
+      .challenge-grid, .community-grid {
+        grid-template-columns: 1fr;
+      }
+      .stat, .card { padding: 14px; }
+      .hero { padding-top: 28px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">L</div>
+        LINKUP<span class="gradient">.</span>
+      </div>
+      <div class="points">✦ <span id="points">0</span> XP</div>
+    </header>
+
+    <main>
+      <section id="home" class="view">
+        <div class="hero">
+          <div class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</div>
+          <h1>Small steps.<br><span class="gradient">Big energy.</span></h1>
+          <p>Discover challenges, learn new things and find people who share your interests.</p>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <strong id="completed">0</strong>
+            <span>Completed</span>
+          </div>
+          <div class="stat">
+            <strong id="streak">0</strong>
+            <span>Day streak</span>
+          </div>
+          <div class="stat">
+            <strong id="level">1</strong>
+            <span>Level</span>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <h2>Today's challenges</h2>
+          <small>Earn XP ✦</small>
+        </div>
+        <div id="challenge-list" class="challenge-grid"></div>
+
+        <div class="section-head">
+          <h2>Your progress</h2>
+          <small id="progress-label">0% complete</small>
+        </div>
+        <div class="progress-track">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+      </section>
+
+      <section id="communities" class="view" hidden>
+        <div class="hero">
+          <div class="eyebrow">BETTER TOGETHER</div>
+          <h1>Find your <span class="gradient">people.</span></h1>
+          <p>Explore interest groups and discover what everyone is learning.</p>
+        </div>
+        <div id="community-list" class="community-grid"></div>
+      </section>
+
+      <section id="profile" class="view" hidden>
+        <div class="hero">
+          <div class="eyebrow">YOUR JOURNEY</div>
+          <h1>Your <span class="gradient">profile.</span></h1>
+          <p>Your progress is saved on this device.</p>
+        </div>
+        <div class="card">
+          <div class="challenge-icon">🌟</div>
+          <h2 style="margin-top:16px">LINKUP Explorer</h2>
+          <p>Keep trying challenges and collecting experience points to level up.</p>
+          <div class="section-head">
+            <span>Total experience</span>
+            <strong><span id="profile-points">0</span> XP</strong>
+          </div>
+          <div class="section-head">
+            <span>Your level</span>
+            <strong id="profile-level">Level 1</strong>
+          </div>
+          <button class="secondary" id="reset">Reset my progress</button>
+        </div>
+      </section>
+    </main>
+
+    <nav aria-label="Main navigation">
+      <button class="active" data-view="home">🏠<br>Home</button>
+      <button data-view="communities">👥<br>Communities</button>
+      <button data-view="profile">🌟<br>Profile</button>
+    </nav>
+
+    <footer>LINKUP © <span id="year"></span> · Make today count.</footer>
+  </div>
+
+  <div id="notice" role="status" hidden></div>
+
+  <script>
+    const challenges = [
+      { id: "learn", icon: "📚", title: "Learn something", desc: "Spend 10 minutes learning a new skill.", xp: 20, tag: "LEARNING" },
+      { id: "create", icon: "🎨", title: "Make something", desc: "Create a small drawing, idea or design.", xp: 25, tag: "CREATIVITY" },
+      { id: "move", icon: "🚶", title: "Take a break", desc: "Stretch or take a refreshing short walk.", xp: 15, tag: "WELLNESS" },
+      { id: "kind", icon: "💜", title: "Spread kindness", desc: "Give someone a genuine compliment.", xp: 20, tag: "KINDNESS" }
+    ];
+
+    const communities = [
+      { id: "code", icon: "💻", name: "Code Creators", desc: "Build projects and learn programming.", members: "1.2k" },
+      { id: "art", icon: "🎨", name: "Creative Corner", desc: "Share art, designs and new ideas.", members: "860" },
+      { id: "game", icon: "🎮", name: "Game Zone", desc: "Talk games, puzzles and strategy.", members: "2.4k" },
+      { id: "learn", icon: "🚀", name: "Skill Builders", desc: "Explore skills and personal projects.", members: "970" }
+    ];
+
+    const KEY = "linkup-progress-v1";
+    const today = new Date().toLocaleDateString("en-CA");
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(KEY));
+        if (saved && typeof saved === "object") {
+          return {
+            points: Math.max(0, Number(saved.points) || 0),
+            completed: Array.isArray(saved.completed) ? saved.completed : [],
+            joined: Array.isArray(saved.joined) ? saved.joined : [],
+            lastDay: saved.lastDay || "",
+            streak: Math.max(0, Number(saved.streak) || 0)
+          };
+        }
+      } catch (e) {}
+      return { points: 0, completed: [], joined: [], lastDay: "", streak: 0 };
+    }
+
+    let state = loadState();
+
+    function save() {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      } catch (e) {
+        notify("Storage unavailable. Your progress may not persist.");
+      }
+    }
+
+    function notify(message) {
+      const box = document.getElementById("notice");
+      box.textContent = message;
+      box.hidden = false;
+      clearTimeout(notify.timer);
+      notify.timer = setTimeout(() => box.hidden = true, 2400);
+    }
+
+    function renderChallenges() {
+      const list = document.getElementById("challenge-list");
+      list.innerHTML = challenges.map(c => {
+        const done = state.completed.includes(c.id);
+        return `
+          <article class="card ${done ? "done" : ""}">
+            <div class="challenge-icon">${c.icon}</div>
+            <span class="tag">${c.tag}</span>
+            <h3>${c.title}</h3>
+            <p>${c.desc}</p>
+            <small>✦ ${c.xp} XP</small>
+            <button class="${done ? "secondary" : "primary"}"
+              data-challenge="${c.id}" ${done ? "disabled" : ""}>
+              ${done ? "✓ Completed" : "Complete challenge"}
+            </button>
+          </article>`;
+      }).join("");
+    }
+
+    function renderCommunities() {
+      document.getElementById("community-list").innerHTML =
+        communities.map(c => {
+          const joined = state.joined.includes(c.id);
+          return `
+            <article class="card">
+              <div class="community-icon">${c.icon}</div>
+              <h3>${c.name}</h3>
+              <p>${c.desc}</p>
+              <small>👥 ${c.members} community members</small>
+              <button class="${joined ? "secondary" : "primary"}"
+                data-community="${c.id}">
+                ${joined ? "✓ Joined" : "Join community"}
+              </button>
+            </article>`;
+        }).join("");
+    }
+
+    function renderStats() {
+      document.getElementById("points").textContent = state.points;
+      document.getElementById("profile-points").textContent = state.points;
+      document.getElementById("completed").textContent = state.completed.length;
+      document.getElementById("streak").textContent = state.streak;
+      const level = Math.floor(state.points / 100) + 1;
+      document.getElementById("level").textContent = level;
+      document.getElementById("profile-level").textContent = "Level " + level;
+
+      const percent = Math.round(state.completed.length / challenges.length * 100);
+      document.getElementById("progress-label").textContent = percent + "% complete";
+      document.getElementById("progress-fill").style.width = percent + "%";
+    }
+
+    function render() {
+      renderChallenges();
+      renderCommunities();
+      renderStats();
+      save();
+    }
+
+    document.addEventListener("click", event => {
+      const challengeButton = event.target.closest("[data-challenge]");
+      const communityButton = event.target.closest("[data-community]");
+      const navButton = event.target.closest("[data-view]");
+
+      if (challengeButton) {
+        const c = challenges.find(item => item.id === challengeButton.dataset.challenge);
+        if (!c || state.completed.includes(c.id)) return;
+
+        state.completed.push(c.id);
+        state.points += c.xp;
+
+        if (state.lastDay !== today) {
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          const yesterdayKey = yesterday.toLocaleDateString("en-CA");
+          state.streak = state.lastDay === yesterdayKey ? state.streak + 1 : 1;
+          state.lastDay = today;
+        }
+
+        render();
+        notify("Challenge completed! +" + c.xp + " XP 🎉");
+      }
+
+      if (communityButton) {
+        const id = communityButton.dataset.community;
+        if (state.joined.includes(id)) {
+          state.joined = state.joined.filter(item => item !== id);
+          notify("You left the community.");
+        } else {
+          state.joined.push(id);
+          notify("Welcome to the community! 👋");
+        }
+        render();
+      }
+
+      if (navButton) {
+        document.querySelectorAll(".view").forEach(view => {
+          view.hidden = view.id !== navButton.dataset.view;
+        });
+        document.querySelectorAll("[data-view]").forEach(button => {
+          button.classList.toggle("active", button === navButton);
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      if (!confirm("Reset all your LINKUP progress on this device?")) return;
+      state = { points: 0, completed: [], joined: [], lastDay: "", streak: 0 };
+      render();
+      notify("Progress reset.");
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    render();
+
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
