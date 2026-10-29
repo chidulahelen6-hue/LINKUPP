@@ -1,0 +1,19 @@
+
+{
+  "name": "NEON DASH 3D",
+  "short_name": "NEON DASH",
+  "description": "A futuristic cyberpunk endless runner",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#05000e",
+  "theme_color": "#080014",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "neon-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
